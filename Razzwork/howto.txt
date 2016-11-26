@@ -1,0 +1,13 @@
+This file shall explain how to initialize everything to make it work!
+
+1. Give the apache-user www-data access to the gpio-pins
+
+# Add www-data to the gpio group
+usermod -G gpio -a www-data
+#restart apache to make the changes effective
+/etc/init.d/apache2 restart
+
+2. Code your application using the classes from the framwork
+
+
+3. Profit!

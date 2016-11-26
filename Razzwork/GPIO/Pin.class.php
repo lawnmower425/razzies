@@ -1,4 +1,4 @@
-<?php
+<?php namespace Razzwork\GPIO;
 
 /**
 * Represents a pin on the raspberry
