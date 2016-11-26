@@ -103,7 +103,7 @@ class I2CBus {
 	public function write_register($register, $value) {
 
 		shell_exec(
-			'i2cset -y ' . $this->block . ' ' . $this->i2c_address . ' ' . $register . ' ' . $value
+			'i2cset -y ' . $this->block . ' ' . $this->sAddress . ' ' . $register . ' ' . $value
 		);
 	}
 }

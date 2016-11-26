@@ -1,23 +1,37 @@
 <?php
 
-use \Razzwork\Autoloader;
-use \Razzwork\Drivers\I2CBus;
+use \Razzwork\Autoloader as RazzAutoloader;
 use \Razzwork\Drivers\PCF8591;
-use \Razzwork\GPIO\Pin;
 
 ini_set('display_erros', 'on');
 ini_set('error_reporting', E_ALL);
 
 require_once __DIR__.'/../../Razzwork/Autoloader.class.php';
 
-Autoloader::register();
+RazzAutoloader::register();
 
-$oPin = new Pin(23, 'in');
-$oI2C = new I2CBus("0x48");
+require_once __DIR__.'/../framework/classes/Framework.class.php';
 
-var_dump($oPin->getDirection());
-var_dump($oPin->getValue());
+\Framework::setControllerPath(__DIR__.'/../');
+\Framework::setModelPath(__DIR__.'/../');
+\Framework::setFrameworkPath(__DIR__.'/../../framework/');
+\Framework::initialize();
+
 
 $oPfc = new PCF8591();
-if ($oPfc->readByte(PCF8591::AIN0) < 100)
-	echo 'Toilette besetzt'; else echo 'Toilette offen';
+echo $oPfc->readByte(PCF8591::AIN0);
+
+/*if ($oPfc->readByte(PCF8591::AIN0) < 100)
+	echo 'Toilette besetzt'; else echo 'Toilette offen';*/
+
+die(fgettemplate(
+	__DIR__.'/index.html',
+		array(
+			'FRAMEWORK_JS'	=>
+				\Framework::loadFrameworkJs(
+					'FRAMEWORK_MAIN',
+					'',
+					__DIR__.'/../')
+		)
+	)
+);
