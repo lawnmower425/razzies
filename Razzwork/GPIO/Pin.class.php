@@ -9,7 +9,7 @@ class Pin {
 	/**
 	 * Directory for reading and writing from and to the pins
 	 */
-	const PINDIR = '/sys/class/gpio/gpio';
+	const PINDIR = '/sys/class/gpio';
 
 	const DIRECTION_OUT = 'out';
 	const DIRECTION_IN	= 'in';
@@ -24,14 +24,50 @@ class Pin {
 	 * Constructor
 	 * @param int $iPinNumber Specifies the number (according to your mode)
 	 */
-	public function __construct($iPinNumber, $iDirection) {
+	public function __construct($iPinNumber, $sDirection) {
 
 		//store the pin number
 		$this->iPinNumber = $iPinNumber;
+		//export this pin, if it is not there yet
+		if (!file_exists(self::PINDIR.'/gpio'.$iPinNumber)) {
+
+			file_put_contents(
+				self::PINDIR.'/export',
+				$this->iPinNumber
+			);
+		}
+
 		//set up the direction
 		file_put_contents(
-			self::PINDIR.$this->iPinNumber.'/direction',
-			$iDirection
+			self::PINDIR.'/gpio'.$this->iPinNumber.'/direction',
+			$sDirection
+		);
+	}
+
+	/**
+	 * Set the direction - you usually do this already in the constructor
+	 * but it -may- be that you wanna change it
+	 * @param string $sDirection
+	 * @return Pin
+	 */
+	public function setDirection($sDirection) {
+
+		//set up the direction
+		file_put_contents(
+			self::PINDIR.'/gpio'.$this->iPinNumber.'/direction',
+			$sDirection
+		);
+		return $this;
+	}
+
+	/**
+	 * Get the direction of the pin
+	 * @return string in|out
+	 */
+	public function getDirection() {
+
+		return file_get_contents(
+			self::PINDIR.'/gpio'.$this->iPinNumber.'/direction'
 		);
 	}
 
@@ -39,11 +75,11 @@ class Pin {
 	 * Read from the pin
 	 * @return int
 	 */
-	public function read() {
+	public function getValue() {
 
 		return trim(
 			file_get_contents(
-				self::PINDIR.$this->iPinNumber.'/direction'
+				self::PINDIR.'/gpio'.$this->iPinNumber.'/value'
 			)
 		);
 	}
