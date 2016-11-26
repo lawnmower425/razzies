@@ -1,8 +1,19 @@
 <html>
 	<head>
-		$FRAMEWORK_JS
+		<script 
+			type="text/javascript"
+			src="jquery-2.0.3.min.js "></script>
+		<script type="text/javascript" src="framework/grunt/build/productive/FRAMEWORK_MAIN/js/framework_main_20161117.min.js" ></script>
 	</head>
 	<body>
-		
+		test
 	</body>
+	<script type="text/javascript" >
+	jQuery(document).ready(function() {
+
+		Framework.setupComponents();
+		AsyncCall.ProgressIndicator.setFormattingMode(1);
+	});	
+	</script>
+
 </html>
