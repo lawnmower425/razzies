@@ -66,8 +66,10 @@ class Pin {
 	 */
 	public function getDirection() {
 
-		return file_get_contents(
+		return trim(
+			file_get_contents(
 			self::PINDIR.'/gpio'.$this->iPinNumber.'/direction'
+			)
 		);
 	}
 

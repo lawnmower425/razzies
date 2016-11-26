@@ -2,6 +2,7 @@
 
 use \Razzwork\Autoloader;
 use \Razzwork\Drivers\I2CBus;
+use \Razzwork\Drivers\PCF8591;
 use \Razzwork\GPIO\Pin;
 
 ini_set('display_erros', 'on');
@@ -16,4 +17,7 @@ $oI2C = new I2CBus("0x48");
 
 var_dump($oPin->getDirection());
 var_dump($oPin->getValue());
-var_dump($oI2C->read_register(""));
+
+$oPfc = new PCF8591();
+if ($oPfc->readByte(PCF8591::AIN0) < 100)
+	echo 'Toilette besetzt'; else echo 'Toilette offen';
