@@ -4,15 +4,87 @@
 			type="text/javascript"
 			src="jquery-2.0.3.min.js "></script>
 		<script type="text/javascript" src="framework/grunt/build/productive/FRAMEWORK_MAIN/js/framework_main_20161117.min.js" ></script>
+		<style>
+			#stateDiv {
+				
+				text-align:center;
+				width:100%;
+				margin-top:100px;
+				border:black;
+			}
+			.stateResultDiv {
+				
+				height: 200px;
+				font-size:5em;
+				color: white;
+				padding-top:90px;
+			}
+			.waiting {
+				
+				background-color:yellow;
+				color:black;
+			}
+			.lightson {
+				
+				background-color: green;
+			}
+			.lightsoff {
+				
+				background-color: red;
+			}
+		</style>
 	</head>
 	<body>
-		test
+		<div id="stateDiv">
+			
+		</div>
 	</body>
 	<script type="text/javascript" >
 	jQuery(document).ready(function() {
 
+		var RequestFinished = false;
+
+		window.setInterval(getState, 5000);
 		Framework.setupComponents();
-		AsyncCall.ProgressIndicator.setFormattingMode(1);
+
+		/**
+		 * Call for a new state of the toilet
+		 * @returns {undefined}
+		 */
+		function getState() {
+			
+			RequestFinished = false;
+			new AsyncCall()
+			.setProgressIndicatorVisibility(false)
+			//to know when the request has finished loading for a delay feature
+			.addRequest(
+				new AsyncCallRequest()
+					.setController('cVisualToiletState')
+					.setFunction('syncHandle')
+					.setCallback(function(){
+						RequestFinished = true;
+					})
+			)
+			.send();
+	
+			//wait a little and see if the request has finished then
+			setTimeout(function(){
+
+				//if it has not finished, insert the waiting-indication to keep people
+				//informed, that no information has been returned
+				if (RequestFinished != true) {
+				
+					jQuery('#stateDiv').html(
+						'<div class="stateResultDiv waiting">Warte auf Status</div>'
+					);
+				}
+			}, 500);
+		}
+		
+		function sleep(ms) {
+			
+			return new Promise(resolve => setTimeout(resolve, ms));
+		}
 	});	
 	</script>
 

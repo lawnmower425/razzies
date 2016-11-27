@@ -16,6 +16,15 @@ class PCF8591 {
 	CONST AIN3			= "0x43";
 
 	/**
+	 * Static constructor for a fluent interface
+	 * @return \self
+	 */
+	public static function create() {
+
+		return new static();
+	}
+
+	/**
 	 * CTor
 	 */
 	public function __construct() {
