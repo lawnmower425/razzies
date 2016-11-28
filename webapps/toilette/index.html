@@ -5,6 +5,9 @@
 			src="jquery-2.0.3.min.js "></script>
 		<script type="text/javascript" src="framework/grunt/build/productive/FRAMEWORK_MAIN/js/framework_main_20161117.min.js" ></script>
 		<style>
+			body {
+				font-family:Sans-Serif;
+			}
 			#stateDiv {
 				
 				text-align:center;
@@ -14,10 +17,10 @@
 			}
 			.stateResultDiv {
 				
-				height: 200px;
-				font-size:5em;
+				height: 175px;
+				font-size:5.6em;
 				color: white;
-				padding-top:90px;
+				padding-top:60px;
 			}
 			.waiting {
 				
@@ -32,9 +35,18 @@
 				
 				background-color: red;
 			}
+			.questionDiv {
+				
+				font-size:3.5em;
+				text-align:center;
+			}
 		</style>
 	</head>
 	<body>
+		<div class="questionDiv">
+			Was macht eigentlich die Toilette?<br>
+			<span style="font-size:0.5em">Die Toilette ist...</span>
+		</div>
 		<div id="stateDiv">
 			
 		</div>
@@ -43,8 +55,10 @@
 	jQuery(document).ready(function() {
 
 		var RequestFinished = false;
+		//the initial call
+		getState();
 
-		window.setInterval(getState, 5000);
+		window.setInterval(getState, 3000);
 		Framework.setupComponents();
 
 		/**
