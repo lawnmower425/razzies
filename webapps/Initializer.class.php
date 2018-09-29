@@ -40,7 +40,7 @@ class Initializer {
 
 		require_once __DIR__.'/framework/classes/Framework.class.php';
 		\Framework::setControllerPath($sControllers);
-		\Framework::setModelPath($sModels);
+		//Framework::setModelPath($sModels);
 		\Framework::setFrameworkPath($sFrameworkPath);
 		\Framework::initialize();
 
